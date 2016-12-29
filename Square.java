@@ -57,6 +57,11 @@ public class Square {
     // There are valid values to insert and square is not the last one.
     } else if (values.length() > 0 && next != null) {
       next.recursiveSolve();
+
+    // No solutions, puzzle is corrupted/not valid.
+    } else if (values.length() <= 0 && next == null) {
+      System.out.println("Error: Puzzle is not valid and therefore not solveable.");
+      return;
     }
 
     value = tempValue;
@@ -69,13 +74,8 @@ public class Square {
    */
   public String validValues() {
     String result = "";
-    String activeValues = "";
+    String activeValues = activeValues();
     String allValues = Board.getValidValues();
-
-    // Build a String of all currently active values in row, column, and box of this Square.
-    for (int i = 0; i < sequences.length; i++) {
-      activeValues += sequences[i].activeValuesExceptFor(this);
-    }
 
     // If one of the values are not present in row, column, or box, add to result string.
     for (int i = 0; i < allValues.length(); i++) {
@@ -84,6 +84,20 @@ public class Square {
       }
     }
 
+    return result;
+  }
+
+  /**
+   * Builds and returns a string of all values currently active in
+   * the square's row, column and box, except for it's own value.
+   *
+   * @return  all values currently active in the square's sequences, except it's own value.
+   */
+  public String activeValues() {
+    String result = "";
+    for (int i = 0; i < sequences.length; i++) {
+      result += sequences[i].activeValuesExceptFor(this);
+    }
     return result;
   }
 

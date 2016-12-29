@@ -39,4 +39,19 @@ public class Sequence {
 
     return activeValues;
   }
+
+  /**
+   * Builds a String of all values currently claimed by all squares in the sequence.
+   *
+   * @return      a string with all the values currently claimed by the squares in the sequence.
+   */
+  public String activeValues() {
+    String activeValues = "";
+
+    for (int i = 0; i < squares.size(); i++) {
+      activeValues += squares.get(i).getValue();
+    }
+
+    return activeValues;
+  }
 }

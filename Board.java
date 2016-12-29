@@ -94,17 +94,11 @@ public class Board {
   public void setupBoard(Square[][] squares) {
     this.squares = squares;
 
-    // Rows
+    // Rows and Columns
     for (int x = 0; x < size; x++) {
       for (int y = 0; y < size; y++) {
         rows[x].setSquare(squares[x][y]);
         squares[x][y].setRow(rows[x]);
-      }
-    }
-
-    // Columns
-    for (int y = 0; y < size; y++) {
-      for (int x = 0; x < size; x++) {
         columns[y].setSquare(squares[x][y]);
         squares[x][y].setColumn(columns[y]);
       }
@@ -143,6 +137,11 @@ public class Board {
    * method should only happen when it's reasonably certain that all squares have been initialized.
    */
   private void setupMutableSquares() {
+    if (this.squares == null) {
+      System.out.println("Error: Board has not been properly initialized.");
+      return;
+    }
+
     mutableSquares = new ArrayList<Square>();
 
     for (int x = 0; x < size; x++) {
@@ -167,6 +166,48 @@ public class Board {
    */
   public int getSize() {
     return size;
+  }
+
+  /**
+   * Checks the sequences of the puzzle to see if there are any inconsistencies.
+   * Should only be used once after loading puzzle from file.
+   *
+   * @return    true if valid, false if not.
+   */
+  public boolean puzzleValidity() {
+    for (int i = 0; i < size; i++) {
+      if (sequenceContainsDuplicates(rows[i]))    return false;
+      if (sequenceContainsDuplicates(columns[i])) return false;
+      if (sequenceContainsDuplicates(boxes[i]))   return false;
+    }
+    return true;
+  }
+
+  /**
+   * Checks if a given Sequence contains any duplicate values.
+   *
+   * @param sequence Sequence to check for duplicate values.
+   * @return         true if sequence contains duplicate values, false if otherwise.
+   */
+  private boolean sequenceContainsDuplicates(Sequence sequence) {
+    String values    = sequence.activeValues();
+    String allValues = Board.getValidValues();
+
+    for (int a = 0; a < allValues.length(); a++) {
+      int count = 0;
+      for (int b = 0; b < values.length(); b++) {
+        char comp = allValues.charAt(a);
+        if (comp == values.charAt(b)) {
+          count++;
+        }
+      }
+
+      if (count > 1) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**

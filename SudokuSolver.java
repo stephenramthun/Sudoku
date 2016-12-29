@@ -51,8 +51,18 @@ public class SudokuSolver {
 
     board = readFile(args[0]);
 
+    if (board == null) {
+      System.out.println("Terminating program.");
+      return;
+    }
+
     System.out.println("Trying to solve follwing board: ");
     board.printCurrentBoard();
+
+    if (board.puzzleValidity() == false) {
+      System.out.println("Error: puzzle is invalid/corrupt.");
+      return;
+    }
 
     System.out.printf("\nSolution:\n");
     board.solve();
@@ -77,8 +87,8 @@ public class SudokuSolver {
       FileInputStream   fis = new FileInputStream(new File(fileName));
       InputStreamReader isr = new InputStreamReader(fis);
 
-      width  = isr.read() - 48; isr.read();  // Set width and consume newline from file.
-      height = isr.read() - 48; isr.read();  // Set height and consume newline from file.
+      width  = isr.read() - 48; isr.read();  // Set width and consume newline from stream.
+      height = isr.read() - 48; isr.read();  // Set height and consume newline from stream.
       board = new Board(width, height);
       size = board.getSize();
 
@@ -96,10 +106,10 @@ public class SudokuSolver {
       isr.close();
 
     } catch(FileNotFoundException e) {
-      System.out.println("File not found.");
+      System.out.println("Error: File not found.");
       return null;
     } catch(IOException e) {
-      System.out.println("Error reading from file.");
+      System.out.println("Error: Could not read from file.");
       return null;
     }
 
