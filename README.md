@@ -20,5 +20,5 @@ The two numbers above the main grid represents the number of subgrids (boxes) ho
 ```
 
 ```
-Usage: java SudokuSolver \<FILENAME>
+Usage: java SudokuSolver <FILENAME>
 ```
