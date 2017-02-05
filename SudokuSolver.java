@@ -7,7 +7,7 @@ import java.io.IOException;
 
 /**
  *  SudokuSolver is a small program designed to solve Sudoku-boards of arbitrary sizes.
- *  It assumes that the board it is trying to solve has only one single solution, and that
+ *  It assumes that the board it is trying to solve has only one solution, and that
  *  it also is square in shape.
  *
  *  It uses a backtracking, recursive algorithm that keeps track of all possible valid values
